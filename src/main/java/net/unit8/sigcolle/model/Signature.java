@@ -18,6 +18,8 @@ public class Signature implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long signatureId;
 
+    private Long userId;
+
     private String name;
     private String signatureComment;
 
