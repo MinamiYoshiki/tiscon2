@@ -14,6 +14,7 @@ public class V3__CreateSignature implements JdbcMigration {
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("CREATE TABLE signature (" +
                     "signature_id INTEGER DEFAULT 1 AUTO_INCREMENT PRIMARY KEY," +
+                    "useId INTEGER"+
                     "name VARCHAR(30) NOT NULL," +
                     "signature_comment CLOB," +
                     "campaign_id INTEGER NOT NULL," +
