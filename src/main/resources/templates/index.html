@@ -12,11 +12,13 @@
     <div th:replace="/shared/_header::header"></div>
 
     <div class="full height image">
+        <!--2017_02_28_#16 login-->
         <div class="ui main container"th:with="isLogin=((${session} != null) and (${session.principal} != null))">
             <div class="menu bar">
             </div>
             <div class="ui information container center aligned ">
                 <h1 class="ui header">SIG COLLE</h1>
+                <!--2017_02_28_#21 - 25 login-->
                 <div th:if="${isLogin}">
                     <h2>キャンペーン一覧</h2>
                     <div th:each="campaign : ${campaigns}">
