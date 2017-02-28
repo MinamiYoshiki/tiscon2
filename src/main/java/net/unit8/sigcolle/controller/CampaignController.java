@@ -62,6 +62,8 @@ public class CampaignController {
      */
     @Transactional
     public HttpResponse sign(SignatureForm form) {
+
+
         if (form.hasErrors()) {
             return showCampaign(form.getCampaignIdLong(), form, null);
         }
@@ -73,8 +75,17 @@ public class CampaignController {
         SignatureDao signatureDao = domaProvider.getDao(SignatureDao.class);
         signatureDao.insert(signature);
 
+        int signatureCnt = signatureDao.countByCampaignId(signature.getCampaignId());
+
+        CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
+        Campaign campaign = campaignDao.selectById(signature.getCampaignId());
+
         HttpResponse response = redirect("/campaign/" + form.getCampaignId(), SEE_OTHER);
-        response.setFlash(new Flash<>("ご賛同ありがとうございました！"));
+        if(campaign.getGoal() > signatureCnt){
+            response.setFlash(new Flash<>("ご賛同ありがとうございました！"));
+        }else{
+            response.setFlash(new Flash<>("賛同者が集まりました！引き続きご賛同よろしくお願いします！"));
+        }
         return response;
     }
 
@@ -118,7 +129,7 @@ public class CampaignController {
         campaignDao.insert(model);
 
         HttpResponse response = redirect("/campaign/" + model.getCampaignId(), SEE_OTHER);
-        response.setFlash(new Flash<>(""/* TODO: キャンペーンが新規作成できた旨のメッセージを生成する */));
+        response.setFlash(new Flash<>("新規キャンペーンを作成しました"/* TODO: キャンペーンが新規作成できた旨のメッセージを生成する */));
 
         return response;
     }
